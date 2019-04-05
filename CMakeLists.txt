@@ -1,13 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
 
 
-#project(ip_filter)
+
 project(ip_filter VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 
-#set(PROJECT_MAJOR_VERSION 0)
-#set(PROJECT_MINOR_VERSION 0)
-#set(PROJECT_VERSION_PATCH $ENV{TRAVIS_BUILD_NUMBER})
-#set(FULL_VERSION ${PROJECT_MAJOR_VERSION}.${PROJECT_MINOR_VERSION}.${PROJECT_VERSION_PATCH})
 
 
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
