@@ -1,7 +1,5 @@
-//#include <cassert>
 #include "lib.h"
 #include <vector>
-//#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <iterator>
@@ -16,7 +14,7 @@ T1 split(T1 begin_it, T1 end_it, T2 out_it, T3 split_charq, T4 tabu_fun)
     ///////////////////задаем начальный и конечный итератор и итератор вывода, а также char q и правило
     while(begin_it != end_it)
     {
-        ////////////////////////////находим перескакиваем и итерируем
+        ////////////////////////////находим split_charq перескакиваем и итерируем
         auto string_end (find(begin_it, end_it, split_charq));
         *out_it++ = tabu_fun(begin_it, string_end);
         if(string_end == end_it) {return end_it;}
@@ -24,14 +22,12 @@ T1 split(T1 begin_it, T1 end_it, T2 out_it, T3 split_charq, T4 tabu_fun)
     }
     return begin_it;
 }
-
 int main()
 {
         ///////////////////лямбда для новой строки
-        auto new_string ([](auto x_it, auto y_it)
-        {
-            return string(x_it, y_it);
-        });
+        auto new_string ([](auto x_it, auto y_it){ return string(x_it, y_it);});
+        ///////////////////лямбда для сортировки
+        auto compare ([](auto x_it, auto y_it){ return x_it.size() < y_it.size();});
         list<string> lit;
         //////////////////////////////////////Считываем в лист
         for(string line; getline(cin, line);)
@@ -39,11 +35,9 @@ int main()
         split(begin(line), end(line), back_inserter(lit), '\t', new_string);
         }
         //////////////////////////////////////сортируем и удаляем не нужное
-        lit.remove_if([](auto x){ return x.size() < 5; });
-        lit.sort(); 
         lit.erase(unique(lit.begin(), lit.end()), lit.end());
-        ///////////////////////////////////выводим
-        copy(begin(lit), end(lit), ostream_iterator<string> {cout, "\n"} );
-    //cout << "HELLLO" << endl;
-   return 0;
+        lit.sort(compare); 
+        lit.remove_if([](auto x){ return x.size() < 6; });
+        for(const auto & x : lit) cout << x << "\n";
+    return 0;
 }
