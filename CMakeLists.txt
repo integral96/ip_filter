@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 
 
-
-project(ip_filter VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+set(PATH_VERSION "1" CACHE INTERNAL "Path version")
+project(ip_filter VERSION 0.0.${PATH_VERSION})
 
 
 
