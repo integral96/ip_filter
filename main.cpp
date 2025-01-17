@@ -135,11 +135,31 @@ int main()
         split(begin(line), end(line), back_inserter(lit), '\t', new_string);
     }
 
-    lit.erase(unique(lit.begin(), lit.end()), lit.end());
-    lit.sort(compare);
     lit.remove_if([](auto x){ return x.size() < 6; });
+    lit.sort();
+    lit.erase(unique(lit.begin(), lit.end()), lit.end());
     cout << "Вывод айпи фильтра:\n";
-    for(const auto & x : lit) cout << x << "\n";
+    auto new_array_value ([](auto x_it, auto y_it)->int{ return stoi(string(x_it, y_it));});
+    list<vector<int>> result;
+    for(const auto& x : lit) {
+        vector<int> sad;
+        split(begin(x), end(x), back_inserter(sad), '.', new_array_value);
+        result.push_back(sad);
+    }
+    result.sort([](auto& x_it, auto& y_it){ return x_it[0] < y_it[0]; });
+    result.sort([](auto& x_it, auto& y_it){ return x_it[0] == y_it[0] && x_it[1] < y_it[1]; });
+    result.sort([](auto& x_it, auto& y_it){ return (x_it[0] == y_it[0] && x_it[1] == y_it[1]) && x_it[2] < y_it[2]; });
+    result.sort([](auto& x_it, auto& y_it){ return ((x_it[0] == y_it[0] && x_it[1] == y_it[1]) && x_it[2] == y_it[2]) && x_it[3] < y_it[3]; });
+    for(const auto & x : result) {
+        int i = 0;
+        for(const auto & y : x) {
+            if(i < 3)
+                cout << y << ".";
+            else cout << y;
+            ++i;
+        }
+        cout << "\n";
+    }
 
     return 0;
 }
